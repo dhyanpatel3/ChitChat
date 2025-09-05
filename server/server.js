@@ -50,12 +50,28 @@ app.use("/api/messages", messageRouter);
 
 
 
-if(process.env.NODE_ENV !=="production"){
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-}
+
+// Fix: Start server with database connection
+const startServer = async () => {
+  try {
+    // Connect to database first
+    console.log("Connecting to database...");
+    await connectDB();
+    console.log("Database connected successfully");
+    
+    // Then start the server
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 //export server for vercel
 export default server;
