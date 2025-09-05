@@ -48,8 +48,6 @@ app.use("/api/status", (req, res) => {
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRouter);
 
-//connect to database
-await connectDB();
 
 
 if(process.env.NODE_ENV !=="production"){
